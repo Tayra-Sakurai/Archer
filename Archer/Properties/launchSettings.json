@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Archer (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Archer (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
