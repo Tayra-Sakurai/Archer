@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // SPDX-FileCopyrightText: 2026 Tayra Sakurai <tayra_sakurai@icloud.com>
+using Caesar.Conversions;
 using Caesar.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,6 +20,13 @@ namespace Caesar.Contexts
         public CaesarContext(DbContextOptions<CaesarContext> options)
             : base(options)
         {
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder
+                .Properties<float[]>()
+                .HaveConversion<VectorConverter>();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
