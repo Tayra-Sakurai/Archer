@@ -1,8 +1,12 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 Tayra Sakurai <tayra_sakurai@icloud.com>
 using Caesar.Contexts;
+using Caesar.Messages;
 using Caesar.Models;
 using Caesar.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -55,7 +59,21 @@ namespace Caesar.ViewModels
             await LoadAsync();
         }
 
-        private bool CanRemove(LargeCategory? largeCategory)
+        private static bool CanRemove(LargeCategory? largeCategory)
+        {
+            return largeCategory is not null;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanInvoke))]
+        private void Invoke(LargeCategory? largeCategory)
+        {
+            if (largeCategory == null)
+                return;
+
+            WeakReferenceMessenger.Default.Send(new LargeCategoryInvokedMessage(largeCategory));
+        }
+
+        private static bool CanInvoke(LargeCategory? largeCategory)
         {
             return largeCategory is not null;
         }

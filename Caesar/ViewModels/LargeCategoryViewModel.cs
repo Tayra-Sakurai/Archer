@@ -1,0 +1,80 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 Tayra Sakurai <tayra_sakurai@icloud.com>
+using Caesar.Contexts;
+using Caesar.Messages;
+using Caesar.Models;
+using Caesar.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.AI;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Caesar.ViewModels
+{
+    public partial class LargeCategoryViewModel : ObservableValidator
+    {
+        private LargeCategory largeCategory;
+        private readonly ICaesarDatabaseService<CaesarContext> caesarDatabaseService;
+        private readonly IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator;
+
+        public LargeCategoryViewModel(ICaesarDatabaseService<CaesarContext> caesarDatabaseService, IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator)
+        {
+            this.caesarDatabaseService = caesarDatabaseService;
+            this.embeddingGenerator = embeddingGenerator;
+            largeCategory = new();
+        }
+
+        public async Task LoadExistingLargeCategoryAsync(LargeCategory largeCategory)
+        {
+            this.largeCategory = largeCategory;
+
+            OnPropertyChanged(nameof(Name));
+            SaveCommand.NotifyCanExecuteChanged();
+        }
+
+        [Required]
+        public string Name
+        {
+            get => largeCategory.Name;
+            set
+            {
+                if (SetProperty(largeCategory.Name, value, largeCategory, (m, v) => m.Name = v, true))
+                {
+                    SaveCommand.NotifyCanExecuteChanged();
+                }
+            }
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanSave))]
+        private async Task SaveAsync()
+        {
+            ReadOnlyMemory<float> memory = await embeddingGenerator
+                .GenerateVectorAsync(
+                    Name,
+                    new()
+                    {
+                        Dimensions = Constants.DIMENSIONS,
+                    });
+            largeCategory.Vector = memory.ToArray();
+            await caesarDatabaseService.UpdateEntityAsync(largeCategory);
+        }
+
+        private bool CanSave()
+        {
+            ValidateAllProperties();
+            return !HasErrors;
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        private async Task RemoveAsync()
+        {
+            await caesarDatabaseService.RemoveEntityAsync(largeCategory);
+            WeakReferenceMessenger.Default.Send(new LargeCategoryRemovedMessage(largeCategory));
+        }
+    }
+}
