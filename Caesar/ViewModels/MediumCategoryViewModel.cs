@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // SPDX-FileCopyrightText: 2026 Tayra Sakurai <tayra_sakurai@icloud.com>
 using Caesar.Contexts;
+using Caesar.Messages;
 using Caesar.Models;
 using Caesar.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.AI;
 using System;
 using System.Collections.Generic;
@@ -63,6 +65,17 @@ namespace Caesar.ViewModels
             }
         }
 
+        [Required]
+        public string Name
+        {
+            get => mediumCategory.Name;
+            set
+            {
+                if (SetProperty(mediumCategory.Name, value, mediumCategory, (m, v) => m.Name = v, true))
+                    SaveCommand.NotifyCanExecuteChanged();
+            }
+        }
+
         [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanSave))]
         private async Task SaveAsync()
         {
@@ -81,6 +94,14 @@ namespace Caesar.ViewModels
         {
             ValidateAllProperties();
             return !HasErrors;
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        private async Task RemoveAsync()
+        {
+            await caesarDatabaseService.RemoveEntityAsync(mediumCategory);
+
+            WeakReferenceMessenger.Default.Send(new MediumCategoryRemovedMessage(mediumCategory));
         }
     }
 }

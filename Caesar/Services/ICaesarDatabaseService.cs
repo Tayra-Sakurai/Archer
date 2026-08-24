@@ -83,5 +83,18 @@ namespace Caesar.Services
         /// <returns>The task to control the asynchronous process.</returns>
         Task RemoveEntityAsync<TEntity>(TEntity entity)
             where TEntity : class;
+
+        /// <summary>
+        /// Returns if any entity of the property exists.
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type.</typeparam>
+        /// <param name="expression">The entity set selector.</param>
+        /// <returns>Whether the type of entity exists.</returns>
+        bool ExistsAnyEntity<TEntity>(Expression<Func<TContext, DbSet<TEntity>>> expression)
+            where TEntity : class;
+
+        /// <inheritdoc cref="ExistsAnyEntity{TEntity}(Expression{Func{TContext, DbSet{TEntity}}})"/>
+        bool ExistsAnyEntity<TEntity>()
+            where TEntity : class;
     }
 }

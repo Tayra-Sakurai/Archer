@@ -5,9 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 
 namespace Caesar.Services
 {
@@ -89,6 +91,22 @@ namespace Caesar.Services
             using CaesarContext context = await factory.CreateDbContextAsync();
             context.Remove(entity);
             await context.SaveChangesAsync();
+        }
+
+        public bool ExistsAnyEntity<TEntity>(Expression<Func<CaesarContext, DbSet<TEntity>>> expression)
+            where TEntity : class
+        {
+            using CaesarContext context = factory.CreateDbContext();
+
+            return expression.Compile()(context).FirstOrDefault() != null;
+        }
+
+        public bool ExistsAnyEntity<TEntity>()
+            where TEntity : class
+        {
+            using CaesarContext context = factory.CreateDbContext();
+
+            return context.Set<TEntity>().Count() > 0;
         }
     }
 }

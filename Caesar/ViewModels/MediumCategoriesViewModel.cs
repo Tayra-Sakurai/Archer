@@ -31,6 +31,7 @@ namespace Caesar.ViewModels
         }
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddCommand))]
         public partial ObservableCollection<MediumCategory> MediumCategories { get; set; }
 
         [RelayCommand(AllowConcurrentExecutions = false)]
@@ -50,7 +51,7 @@ namespace Caesar.ViewModels
             }
         }
 
-        [RelayCommand(AllowConcurrentExecutions = false)]
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanAdd))]
         private async Task AddAsync()
         {
             MediumCategory mediumCategory = new()
@@ -61,6 +62,11 @@ namespace Caesar.ViewModels
 
             await caesarDatabaseService.AddEntityAsync(mediumCategory);
             await LoadAsync();
+        }
+
+        private bool CanAdd()
+        {
+            return caesarDatabaseService.ExistsAnyEntity<LargeCategory>();
         }
 
         [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRemove))]
