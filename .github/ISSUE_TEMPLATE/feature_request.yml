@@ -1,0 +1,41 @@
+name: Feature Request (EN)
+description: The feature request form.
+labels: [enhancement]
+assignees: [Tayra-Sakurai]
+title: "[REQUEST]: "
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for your request. Please tell us your idea to realize it.
+
+  - type: checkboxes
+    attributes:
+      label: If the feature is related to problem to improve, please check the following checkbox.
+      options:
+        - label: The feature is related to the problem improvement.
+          required: false
+
+  - type: input
+    attributes:
+      label: Summary
+      description: Please summarize your request in short.
+      placeholder: The short summary
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Detailed Description
+      description: Please tell us as detailed description as possible.
+      placeholder: The detailed description. Markdown is enabled.
+      render: Markdown
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional Details
+      description: Please tell us the additional details if necessary.
+      placeholder: Markdown is enabled.
+    validations:
+      required: false

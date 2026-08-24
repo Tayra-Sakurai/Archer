@@ -1,0 +1,44 @@
+name: Bug Report (EN)
+description: Please report the bug.
+labels: [bug]
+title: "[BUG]: "
+assignees: [Tayra-Sakurai]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for your report of a bug. Please tell us about the bug as clear and concise as possible.
+
+  - type: input
+    attributes:
+      label: Summary
+      description: Please summarize your report.
+      placeholder: Summary
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: Please tell us the detailed description of the bug report.
+      placeholder: Description
+      render: Markdown
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Reproduction Process
+      description: Please tell us how this bug is reproduced.
+      placeholder: Please tell me in a step-by-step list style.
+      render: Markdown
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional Context
+      description: If there is any additional context related to this bug, please tell us it.
+      placeholder: Additional context.
+      render: Markdown
+    validations:
+      required: false
