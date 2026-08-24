@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // SPDX-FileCopyrightText: 2026 Tayra Sakurai <tayra_sakurai@icloud.com>
 using Caesar.Contexts;
+using Caesar.Extensions;
 using Caesar.Messages;
 using Caesar.Models;
 using Caesar.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.AI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,10 +21,12 @@ namespace Caesar.ViewModels
     public partial class MediumCategoriesViewModel : ObservableObject
     {
         private readonly ICaesarDatabaseService<CaesarContext> caesarDatabaseService;
+        private readonly IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator;
 
-        public MediumCategoriesViewModel(ICaesarDatabaseService<CaesarContext> caesarDatabaseService)
+        public MediumCategoriesViewModel(ICaesarDatabaseService<CaesarContext> caesarDatabaseService, IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator)
         {
             this.caesarDatabaseService = caesarDatabaseService;
+            this.embeddingGenerator = embeddingGenerator;
             MediumCategories = [];
         }
 
@@ -52,6 +56,7 @@ namespace Caesar.ViewModels
             MediumCategory mediumCategory = new()
             {
                 LargeCategoryId = (await caesarDatabaseService.GetEntitiesAsync(l => l.LargeCategories)).First().Id,
+                Vector = new float[Constants.DIMENSIONS],
             };
 
             await caesarDatabaseService.AddEntityAsync(mediumCategory);
@@ -79,6 +84,36 @@ namespace Caesar.ViewModels
             if (mediumCategory is null) return;
 
             WeakReferenceMessenger.Default.Send(new MediumCategoryInvokedMessage(mediumCategory));
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanSearch))]
+        private async Task SearchAsync(string searchTerm)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm))
+                return;
+
+            float[] value = (await embeddingGenerator.GenerateVectorAsync(
+                searchTerm,
+                new()
+                {
+                    Dimensions = Constants.DIMENSIONS,
+                })).ToArray();
+
+            List<MediumCategory> mediumCategories = [.. MediumCategories];
+
+            MediumCategories.Clear();
+
+            foreach (
+                MediumCategory mediumCategory in
+                mediumCategories
+                .OrderBy(e => e.Vector * value)
+                .ToList())
+                MediumCategories.Add(mediumCategory);
+        }
+
+        private static bool CanSearch(string searchPhrase)
+        {
+            return !string.IsNullOrWhiteSpace(searchPhrase);
         }
     }
 }
