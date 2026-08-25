@@ -7,7 +7,6 @@ using Caesar.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.AI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,12 +21,12 @@ namespace Caesar.ViewModels
     {
         private readonly ICaesarDatabaseService<CaesarContext> caesarDatabaseService;
         private MediumCategory mediumCategory;
-        private readonly IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator;
+        private readonly IEmbeddingVectorService<string, float> embeddingVectorService;
 
-        public MediumCategoryViewModel(ICaesarDatabaseService<CaesarContext> caesarDatabaseService, IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator)
+        public MediumCategoryViewModel(ICaesarDatabaseService<CaesarContext> caesarDatabaseService, IEmbeddingVectorService<string, float> embeddingVectorService)
         {
             this.caesarDatabaseService = caesarDatabaseService;
-            this.embeddingGenerator = embeddingGenerator;
+            this.embeddingVectorService = embeddingVectorService;
             mediumCategory = new();
             LargeCategories = [];
         }
@@ -79,13 +78,12 @@ namespace Caesar.ViewModels
         [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanSave))]
         private async Task SaveAsync()
         {
-            ReadOnlyMemory<float> readOnlyVector = await embeddingGenerator.GenerateVectorAsync(
+            mediumCategory.Vector = await embeddingVectorService.GenerateVectorForDocumentAsync(
                 mediumCategory.Name,
                 new()
                 {
                     Dimensions = Constants.DIMENSIONS,
                 });
-            mediumCategory.Vector = readOnlyVector.ToArray();
 
             await caesarDatabaseService.UpdateEntityAsync(mediumCategory);
         }

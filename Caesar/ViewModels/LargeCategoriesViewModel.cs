@@ -8,7 +8,6 @@ using Caesar.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.AI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,12 +20,12 @@ namespace Caesar.ViewModels
     public partial class LargeCategoriesViewModel : ObservableObject
     {
         private readonly ICaesarDatabaseService<CaesarContext> databaseService;
-        private readonly IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator;
+        private readonly IEmbeddingVectorService<string, float> embeddingVectorService;
 
-        public LargeCategoriesViewModel(ICaesarDatabaseService<CaesarContext> databaseService, IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator)
+        public LargeCategoriesViewModel(ICaesarDatabaseService<CaesarContext> databaseService, IEmbeddingVectorService<string, float> embeddingVectorService)
         {
             this.databaseService = databaseService;
-            this.embeddingGenerator = embeddingGenerator;
+            this.embeddingVectorService = embeddingVectorService;
             LargeCategories = [];
             SearchPhrase = string.Empty;
         }
@@ -95,13 +94,12 @@ namespace Caesar.ViewModels
         {
             if (string.IsNullOrWhiteSpace(SearchPhrase)) return;
 
-            ReadOnlyMemory<float> readOnlyMemory = await embeddingGenerator.GenerateVectorAsync(
+            float[] values = await embeddingVectorService.GenerateVectorForSearchQueryAsync(
                 SearchPhrase,
                 new()
                 {
                     Dimensions = Constants.DIMENSIONS,
                 });
-            float[] values = readOnlyMemory.ToArray();
 
             List<LargeCategory> largeCategories = [.. LargeCategories];
             LargeCategories.Clear();

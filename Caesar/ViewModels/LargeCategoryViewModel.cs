@@ -7,7 +7,6 @@ using Caesar.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.AI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,12 +19,12 @@ namespace Caesar.ViewModels
     {
         private LargeCategory largeCategory;
         private readonly ICaesarDatabaseService<CaesarContext> caesarDatabaseService;
-        private readonly IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator;
+        private readonly IEmbeddingVectorService<string, float> embeddingVectorService;
 
-        public LargeCategoryViewModel(ICaesarDatabaseService<CaesarContext> caesarDatabaseService, IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator)
+        public LargeCategoryViewModel(ICaesarDatabaseService<CaesarContext> caesarDatabaseService, IEmbeddingVectorService<string, float> embeddingVectorService)
         {
             this.caesarDatabaseService = caesarDatabaseService;
-            this.embeddingGenerator = embeddingGenerator;
+            this.embeddingVectorService = embeddingVectorService;
             largeCategory = new();
         }
 
@@ -53,14 +52,12 @@ namespace Caesar.ViewModels
         [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanSave))]
         private async Task SaveAsync()
         {
-            ReadOnlyMemory<float> memory = await embeddingGenerator
-                .GenerateVectorAsync(
-                    Name,
-                    new()
-                    {
-                        Dimensions = Constants.DIMENSIONS,
-                    });
-            largeCategory.Vector = memory.ToArray();
+            largeCategory.Vector = await embeddingVectorService.GenerateVectorForDocumentAsync(
+                Name,
+                new()
+                {
+                    Dimensions = Constants.DIMENSIONS,
+                });
             await caesarDatabaseService.UpdateEntityAsync(largeCategory);
         }
 

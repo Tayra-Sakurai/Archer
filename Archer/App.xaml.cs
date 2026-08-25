@@ -92,6 +92,7 @@ namespace Archer
                         .UseSqlite($"Data Source={source}"));
 
                 services.AddSingleton<ICaesarDatabaseService<CaesarContext>, WindowsCaesarDatabaseService>();
+                services.AddSingleton<IEmbeddingVectorService<string, float>, WindowsGeminiEmbeddignVectorService>();
 
                 services.AddTransient<LargeCategoriesViewModel>();
                 services.AddTransient<LargeCategoryViewModel>();

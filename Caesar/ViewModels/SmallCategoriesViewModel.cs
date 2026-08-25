@@ -8,7 +8,6 @@ using Caesar.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.AI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,13 +20,13 @@ namespace Caesar.ViewModels
     public partial class SmallCategoriesViewModel : ObservableObject
     {
         private readonly ICaesarDatabaseService<CaesarContext> caesarDatabaseService;
-        private readonly IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator;
+        private readonly IEmbeddingVectorService<string, float> embeddingVectorService;
 
-        public SmallCategoriesViewModel(ICaesarDatabaseService<CaesarContext> caesarDatabaseService, IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator)
+        public SmallCategoriesViewModel(ICaesarDatabaseService<CaesarContext> caesarDatabaseService, IEmbeddingVectorService<string, float> embeddingVectorService)
         {
-            this.embeddingGenerator = embeddingGenerator;
             this.caesarDatabaseService = caesarDatabaseService;
             SmallCategories = [];
+            this.embeddingVectorService = embeddingVectorService;
         }
 
         [ObservableProperty]
@@ -97,8 +96,7 @@ namespace Caesar.ViewModels
         {
             if (string.IsNullOrWhiteSpace(searchText)) return;
 
-            float[] value = (await embeddingGenerator.GenerateVectorAsync(searchText, new() { Dimensions = Constants.DIMENSIONS }))
-                .ToArray();
+            float[] value = await embeddingVectorService.GenerateVectorForSearchQueryAsync(searchText, new() { Dimensions = Constants.DIMENSIONS });
 
             List<SmallCategory> smallCategories = [.. SmallCategories];
             SmallCategories.Clear();

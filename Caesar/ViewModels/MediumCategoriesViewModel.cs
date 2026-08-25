@@ -8,7 +8,6 @@ using Caesar.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.AI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,12 +20,12 @@ namespace Caesar.ViewModels
     public partial class MediumCategoriesViewModel : ObservableObject
     {
         private readonly ICaesarDatabaseService<CaesarContext> caesarDatabaseService;
-        private readonly IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator;
+        private readonly IEmbeddingVectorService<string, float> embeddingVectorService;
 
-        public MediumCategoriesViewModel(ICaesarDatabaseService<CaesarContext> caesarDatabaseService, IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator)
+        public MediumCategoriesViewModel(ICaesarDatabaseService<CaesarContext> caesarDatabaseService, IEmbeddingVectorService<string, float> embeddingVectorService)
         {
             this.caesarDatabaseService = caesarDatabaseService;
-            this.embeddingGenerator = embeddingGenerator;
+            this.embeddingVectorService = embeddingVectorService;
             MediumCategories = [];
         }
 
@@ -98,12 +97,12 @@ namespace Caesar.ViewModels
             if (string.IsNullOrWhiteSpace(searchTerm))
                 return;
 
-            float[] value = (await embeddingGenerator.GenerateVectorAsync(
+            float[] value = await embeddingVectorService.GenerateVectorForSearchQueryAsync(
                 searchTerm,
                 new()
                 {
                     Dimensions = Constants.DIMENSIONS,
-                })).ToArray();
+                });
 
             List<MediumCategory> mediumCategories = [.. MediumCategories];
 
