@@ -26,6 +26,12 @@ namespace Caesar.ViewModels
             this.caesarDatabaseService = caesarDatabaseService;
             this.embeddingVectorService = embeddingVectorService;
             largeCategory = new();
+            ErrorsChanged += LargeCategoryViewModel_ErrorsChanged;
+        }
+
+        private void LargeCategoryViewModel_ErrorsChanged(object? sender, System.ComponentModel.DataErrorsChangedEventArgs e)
+        {
+            SaveCommand.NotifyCanExecuteChanged();
         }
 
         public async Task LoadExistingLargeCategoryAsync(LargeCategory largeCategory)
@@ -33,7 +39,7 @@ namespace Caesar.ViewModels
             this.largeCategory = largeCategory;
 
             OnPropertyChanged(nameof(Name));
-            SaveCommand.NotifyCanExecuteChanged();
+            ValidateAllProperties();
         }
 
         [Required]
@@ -44,7 +50,7 @@ namespace Caesar.ViewModels
             {
                 if (SetProperty(largeCategory.Name, value, largeCategory, (m, v) => m.Name = v, true))
                 {
-                    SaveCommand.NotifyCanExecuteChanged();
+                    ValidateAllProperties();
                 }
             }
         }
@@ -63,7 +69,6 @@ namespace Caesar.ViewModels
 
         private bool CanSave()
         {
-            ValidateAllProperties();
             return !HasErrors;
         }
 

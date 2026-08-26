@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 Tayra Sakurai <tayra_sakurai@icloud.com>
 using Caesar.Contexts;
 using Caesar.Models;
 using Caesar.Services;
@@ -6,6 +8,8 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +27,12 @@ namespace Caesar.ViewModels
             this.embeddingVectorService = embeddingVectorService;
             smallCategory = new();
             MediumCategories = [];
+            ErrorsChanged += SmallCategoryViewModel_ErrorsChanged;
+        }
+
+        private void SmallCategoryViewModel_ErrorsChanged(object? sender, System.ComponentModel.DataErrorsChangedEventArgs e)
+        {
+            SaveCommand.NotifyCanExecuteChanged();
         }
 
         [ObservableProperty]
@@ -37,6 +47,57 @@ namespace Caesar.ViewModels
                 MediumCategory mediumCategory in
                 await caesarDatabaseService.GetEntitiesAsync<MediumCategory>())
                 MediumCategories.Add(mediumCategory);
+        }
+
+        public async Task LoadExistingValue(SmallCategory smallCategory)
+        {
+            this.smallCategory = smallCategory;
+
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(MediumCategory));
+            ValidateAllProperties();
+        }
+
+        [Required]
+        public MediumCategory MediumCategory
+        {
+            get => MediumCategories.First(c => c.Id == smallCategory.MediumCategoryId);
+            set
+            {
+                if (SetProperty(smallCategory.MediumCategoryId, value.Id, smallCategory, (m, v) => m.MediumCategoryId = v, true))
+                {
+                    ValidateAllProperties();
+                }
+            }
+        }
+
+        [Required]
+        public string Name
+        {
+            get => smallCategory.Name;
+            set
+            {
+                if (SetProperty(smallCategory.Name, value, smallCategory, (m, v) => m.Name = v, true))
+                    ValidateAllProperties();
+            }
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanSave))]
+        private async Task SaveAsync()
+        {
+            smallCategory.Vector = await embeddingVectorService.GenerateVectorForDocumentAsync(
+                smallCategory.Name,
+                new()
+                {
+                    Dimensions = Constants.DIMENSIONS,
+                });
+
+            await caesarDatabaseService.UpdateEntityAsync(smallCategory);
+        }
+
+        private bool CanSave()
+        {
+            return !HasErrors;
         }
     }
 }

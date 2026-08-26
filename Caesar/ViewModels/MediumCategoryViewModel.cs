@@ -29,11 +29,21 @@ namespace Caesar.ViewModels
             this.embeddingVectorService = embeddingVectorService;
             mediumCategory = new();
             LargeCategories = [];
+            ErrorsChanged += MediumCategoryViewModel_ErrorsChanged;
+        }
+
+        private void MediumCategoryViewModel_ErrorsChanged(object? sender, System.ComponentModel.DataErrorsChangedEventArgs e)
+        {
+            SaveCommand.NotifyCanExecuteChanged();
         }
 
         public async Task SetExistingValueAsync(MediumCategory value)
         {
             mediumCategory = value;
+
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(LargeCategory));
+            ValidateAllProperties();
         }
 
         public async Task LoadAsync()
@@ -59,7 +69,7 @@ namespace Caesar.ViewModels
             {
                 if (SetProperty(mediumCategory.LargeCategoryId, value.Id, mediumCategory, (m, v) => m.LargeCategoryId = v, true))
                 {
-                    SaveCommand.NotifyCanExecuteChanged();
+                    ValidateAllProperties();
                 }
             }
         }
@@ -71,7 +81,7 @@ namespace Caesar.ViewModels
             set
             {
                 if (SetProperty(mediumCategory.Name, value, mediumCategory, (m, v) => m.Name = v, true))
-                    SaveCommand.NotifyCanExecuteChanged();
+                    ValidateAllProperties();
             }
         }
 
@@ -90,7 +100,6 @@ namespace Caesar.ViewModels
 
         private bool CanSave()
         {
-            ValidateAllProperties();
             return !HasErrors;
         }
 
