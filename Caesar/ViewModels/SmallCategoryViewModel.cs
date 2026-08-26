@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // SPDX-FileCopyrightText: 2026 Tayra Sakurai <tayra_sakurai@icloud.com>
 using Caesar.Contexts;
+using Caesar.Messages;
 using Caesar.Models;
 using Caesar.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,7 +47,10 @@ namespace Caesar.ViewModels
 
             foreach (
                 MediumCategory mediumCategory in
-                await caesarDatabaseService.GetEntitiesAsync<MediumCategory>())
+                (await caesarDatabaseService.GetEntitiesAsync<MediumCategory>())
+                .OrderBy(e => e.LargeCategoryId)
+                .ThenBy(e => e.Name)
+                .ToArray())
                 MediumCategories.Add(mediumCategory);
         }
 
@@ -98,6 +103,14 @@ namespace Caesar.ViewModels
         private bool CanSave()
         {
             return !HasErrors;
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        private async Task RemoveAsync()
+        {
+            await caesarDatabaseService.RemoveEntityAsync(smallCategory);
+
+            WeakReferenceMessenger.Default.Send(new SmallCategoryRemovedMessage(smallCategory));
         }
     }
 }
