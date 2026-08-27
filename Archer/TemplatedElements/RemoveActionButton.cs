@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-// SPDX-FileCopyrightText: 2026 Tayra Sakurai <tayra_sakurai@icloud.com>
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
@@ -17,35 +15,35 @@ using System.Windows.Input;
 
 namespace Archer.TemplatedElements
 {
-    public sealed partial class RemoveActionButton : Control
+    public sealed partial class RemoveActionButton : AppBarButton
     {
         public RemoveActionButton()
         {
             DefaultStyleKey = typeof(RemoveActionButton);
         }
 
-        public ICommand Command
+        public new ICommand Command
         {
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
         }
 
-        public static DependencyProperty CommandProperty { get; set; } = DependencyProperty.Register(
+        private static readonly new DependencyProperty CommandProperty = DependencyProperty.Register(
             nameof(Command),
             typeof(ICommand),
             typeof(RemoveActionButton),
             new(null));
 
-        public object? CommandParameter
+        public new object CommandParameter
         {
             get => GetValue(CommandParameterProperty);
             set => SetValue(CommandParameterProperty, value);
         }
 
-        public static DependencyProperty CommandParameterProperty { get; set; } = DependencyProperty.Register(
+        private static readonly new DependencyProperty CommandParameterProperty = DependencyProperty.Register(
             nameof(CommandParameter),
             typeof(object),
             typeof(RemoveActionButton),
-            new(default));
+            new(null));
     }
 }

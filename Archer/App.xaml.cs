@@ -96,6 +96,14 @@ namespace Archer
 
                 services.AddTransient<LargeCategoriesViewModel>();
                 services.AddTransient<LargeCategoryViewModel>();
+                services.AddTransient<MediumCategoriesViewModel>();
+                services.AddTransient<MediumCategoryViewModel>();
+                services.AddTransient<SmallCategoriesViewModel>();
+                services.AddTransient<SmallCategoryViewModel>();
+                services.AddTransient<ItemsViewModel>();
+                services.AddTransient<ItemViewModel>();
+                services.AddTransient<PaymentMethodsViewModel>();
+                services.AddTransient<PaymentMethodViewModel>();
 
                 return services.BuildServiceProvider();
             }
