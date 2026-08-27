@@ -1,0 +1,33 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Archer"
+    xmlns:local2="using:Archer.TemplatedElements">
+
+    <Style TargetType="local2:RemoveActionButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local2:RemoveActionButton">
+                    <AppBarButton
+                        Icon="Delete"
+                        x:Uid="RemoveBtn">
+                        <AppBarButton.Flyout>
+                            <Flyout>
+                                <StackPanel>
+                                    <TextBlock
+                                        x:Uid="RemoveCheckMessage"
+                                        Style="{StaticResource BaseTextBlockStyle}"/>
+                                    <Button
+                                        x:Uid="RemoveConfirmBtn"
+                                        Style="{StaticResource AccentButtonStyle}"
+                                        Command="{TemplateBinding Command}"
+                                        CommandParameter="{TemplateBinding CommandParameter}"/>
+                                </StackPanel>
+                            </Flyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
