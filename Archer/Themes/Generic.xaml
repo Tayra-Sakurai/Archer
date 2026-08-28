@@ -38,4 +38,22 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="local2:DataCommandBar">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local2:DataCommandBar">
+                    <CommandBar
+                        DefaultLabelPosition="Right">
+                        <AppBarButton
+                            Icon="Save"
+                            x:Uid="SaveBtn"
+                            Command="{TemplateBinding SaveCommand}"/>
+                        <local2:RemoveActionButton
+                            Command="{TemplateBinding RemoveCommand}"/>
+                    </CommandBar>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
