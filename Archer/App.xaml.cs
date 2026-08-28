@@ -75,7 +75,7 @@ namespace Archer
             if (apiSettings != null)
             {
                 ServiceCollection services = new();
-                services.AddEmbeddingGenerator<string, Embedding<float>>(
+                services.AddEmbeddingGenerator(
                     new EmbeddingClient(
                         model: "gemini-embedding-2-preview",
                         credential: new System.ClientModel.ApiKeyCredential(apiSettings.Api_Key),
