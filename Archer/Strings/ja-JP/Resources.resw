@@ -120,6 +120,12 @@
   <data name="AddBtn.Label" xml:space="preserve">
     <value>追加</value>
   </data>
+  <data name="DetailBtn.Label" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="LoadBtn.Label" xml:space="preserve">
+    <value>読み込み</value>
+  </data>
   <data name="RemoveBtn.Label" xml:space="preserve">
     <value>削除</value>
   </data>
@@ -131,5 +137,8 @@
   </data>
   <data name="SaveBtn.Label" xml:space="preserve">
     <value>保存</value>
+  </data>
+  <data name="SearchBtn.Label" xml:space="preserve">
+    <value>検索</value>
   </data>
 </root>

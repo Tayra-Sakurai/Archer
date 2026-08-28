@@ -56,4 +56,37 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="local2:DataViewCommands">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local2:DataViewCommands">
+                    <CommandBar
+                        DefaultLabelPosition="Right">
+                        <AppBarButton
+                            Icon="Sync"
+                            x:Uid="LoadBtn"
+                            Command="{TemplateBinding LoadCommand}"/>
+                        <AppBarButton
+                            Icon="Add"
+                            x:Uid="AddBtn"
+                            Command="{TemplateBinding AddCommand}"/>
+                        <AppBarButton
+                            Icon="More"
+                            x:Uid="DetailBtn"
+                            Command="{TemplateBinding DetailCommand}"
+                            CommandParameter="{TemplateBinding DetailCommandParameter}"/>
+                        <local2:RemoveActionButton
+                            Command="{TemplateBinding RemoveCommand}"
+                            CommandParameter="{TemplateBinding RemoveCommandParameter}"/>
+                        <AppBarButton
+                            Icon="Zoom"
+                            x:Uid="SearchBtn"
+                            Command="{TemplateBinding SearchCommand}"
+                            CommandParameter="{TemplateBinding SearchCommandParameter}"/>
+                    </CommandBar>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

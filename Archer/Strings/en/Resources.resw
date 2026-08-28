@@ -120,6 +120,12 @@
   <data name="AddBtn.Label" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="DetailBtn.Label" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="LoadBtn.Label" xml:space="preserve">
+    <value>Load</value>
+  </data>
   <data name="RemoveBtn.Label" xml:space="preserve">
     <value>Remove</value>
   </data>
@@ -131,5 +137,8 @@
   </data>
   <data name="SaveBtn.Label" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="SearchBtn.Label" xml:space="preserve">
+    <value>Search</value>
   </data>
 </root>
