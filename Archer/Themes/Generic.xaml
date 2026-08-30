@@ -89,4 +89,42 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="local2:ValidationTextBox" xmlns:local2="using:Archer.TemplatedElements">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local2:ValidationTextBox">
+                    <StackPanel>
+                        <TextBox
+                            Text="{TemplateBinding Text}"
+                            Header="{TemplateBinding Header}"
+                            Name="Box"/>
+                        <TextBlock
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource SystemErrorTextColor}"
+                            Name="Message"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local2:ValidationNumberBox" xmlns:local2="using:Archer.TemplatedElements">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local2:ValidationNumberBox">
+                    <StackPanel>
+                        <NumberBox
+                            Header="{TemplateBinding Header}"
+                            Value="{TemplateBinding Value}"
+                            Name="Box"/>
+                        <TextBlock
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}"
+                            Name="Block"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
