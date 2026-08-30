@@ -57,8 +57,12 @@ namespace Archer
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            using (CaesarContext context = await Ioc.Default.GetRequiredService<IDbContextFactory<CaesarContext>>().CreateDbContextAsync())
+            {
+                await context.Database.MigrateAsync();
+            }
             _window = new MainWindow();
             _window.Activate();
         }
