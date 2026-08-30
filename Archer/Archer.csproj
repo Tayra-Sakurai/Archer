@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
@@ -58,6 +58,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Caesar\Caesar.csproj" />
     <ProjectReference Include="..\Dita\Dita.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Templates\DataTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!--

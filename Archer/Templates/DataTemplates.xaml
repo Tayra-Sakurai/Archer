@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="using:Caesar.Models">
+    <DataTemplate
+        x:DataType="models:LargeCategory"
+        x:Key="LargeCategoryComboBoxTemplate">
+        <TextBlock Text="{Binding Name}"/>
+    </DataTemplate>
+
+    <DataTemplate
+        x:DataType="models:MediumCategory"
+        x:Key="MediumCategoryComboBoxTemplate">
+        <TextBlock Text="{Binding Name}"/>
+    </DataTemplate>
+
+    <DataTemplate
+        x:DataType="models:SmallCategory"
+        x:Key="SmallCategoryComboBoxTemplate">
+        <TextBlock Text="{Binding Name}"/>
+    </DataTemplate>
+
+    <DataTemplate
+        x:DataType="models:PaymentMethod"
+        x:Key="PaymentMethodComboBoxTemplate">
+        <TextBlock Text="{Binding Name}"/>
+    </DataTemplate>
+</ResourceDictionary>
