@@ -123,8 +123,17 @@
   <data name="DetailBtn.Label" xml:space="preserve">
     <value>Detail</value>
   </data>
+  <data name="IdColumn.Header" xml:space="preserve">
+    <value>No.</value>
+  </data>
+  <data name="LargeCategoriesViewDesc.Text" xml:space="preserve">
+    <value>List of large categories.</value>
+  </data>
   <data name="LoadBtn.Label" xml:space="preserve">
     <value>Load</value>
+  </data>
+  <data name="NameColumn.Header" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="RemoveBtn.Label" xml:space="preserve">
     <value>Remove</value>
@@ -140,5 +149,11 @@
   </data>
   <data name="SearchBtn.Label" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="SearchBox.Header" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchBox.PlaceholderText" xml:space="preserve">
+    <value>Enter the search phrase.</value>
   </data>
 </root>

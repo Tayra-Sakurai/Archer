@@ -4,41 +4,6 @@
     xmlns:local="using:Archer"
     xmlns:local2="using:Archer.TemplatedElements">
 
-    <Style TargetType="local2:RemoveActionButton">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <AppBarButton
-                        Icon="Delete"
-                        x:Uid="RemoveBtn"
-                        AccessKey="{TemplateBinding AccessKey}"
-                        AllowDrop="{TemplateBinding AllowDrop}"
-                        AllowFocusOnInteraction="{TemplateBinding AllowFocusOnInteraction}"
-                        AllowFocusWhenDisabled="{TemplateBinding AllowFocusWhenDisabled}"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        Command="{x:Null}"
-                        CommandParameter="{x:Null}">
-                        <AppBarButton.Flyout>
-                            <Flyout>
-                                <StackPanel>
-                                    <TextBlock
-                                        x:Uid="RemoveCheckMessage"
-                                        Style="{StaticResource BaseTextBlockStyle}"/>
-                                    <Button
-                                        x:Uid="RemoveConfirmBtn"
-                                        Style="{StaticResource AccentButtonStyle}"
-                                        Command="{TemplateBinding Command}"
-                                        CommandParameter="{TemplateBinding CommandParameter}"/>
-                                </StackPanel>
-                            </Flyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style TargetType="local2:DataCommandBar">
         <Setter Property="Template">
             <Setter.Value>
@@ -49,8 +14,25 @@
                             Icon="Save"
                             x:Uid="SaveBtn"
                             Command="{TemplateBinding SaveCommand}"/>
-                        <local2:RemoveActionButton
-                            Command="{TemplateBinding RemoveCommand}"/>
+                        <AppBarButton
+                            Icon="Delete"
+                            x:Uid="RemoveBtn"
+                            Command="{x:Null}"
+                            CommandParameter="{x:Null}">
+                            <AppBarButton.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBlock
+                                            x:Uid="RemoveCheckMessage"
+                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <Button
+                                            x:Uid="RemoveConfirmBtn"
+                                            Style="{StaticResource AccentButtonStyle}"
+                                            Command="{TemplateBinding RemoveCommand}"/>
+                                    </StackPanel>
+                                </Flyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
                     </CommandBar>
                 </ControlTemplate>
             </Setter.Value>
@@ -76,9 +58,26 @@
                             x:Uid="DetailBtn"
                             Command="{TemplateBinding DetailCommand}"
                             CommandParameter="{TemplateBinding DetailCommandParameter}"/>
-                        <local2:RemoveActionButton
-                            Command="{TemplateBinding RemoveCommand}"
-                            CommandParameter="{TemplateBinding RemoveCommandParameter}"/>
+                        <AppBarButton
+                            Icon="Delete"
+                            x:Uid="RemoveBtn"
+                            Command="{x:Null}"
+                            CommandParameter="{x:Null}">
+                            <AppBarButton.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBlock
+                                            x:Uid="RemoveCheckMessage"
+                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <Button
+                                            x:Uid="RemoveConfirmBtn"
+                                            Style="{StaticResource AccentButtonStyle}"
+                                            Command="{TemplateBinding RemoveCommand}"
+                                            CommandParameter="{TemplateBinding RemoveCommandParameter}"/>
+                                    </StackPanel>
+                                </Flyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
                         <AppBarButton
                             Icon="Zoom"
                             x:Uid="SearchBtn"

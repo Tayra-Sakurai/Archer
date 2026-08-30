@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-// SPDX-FileCopyrightText: 2026 Tayra Sakurai <tayra_sakurai@icloud.com>
+using Caesar.ViewModels;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -21,20 +21,23 @@ using Windows.Foundation.Collections;
 namespace Archer
 {
     /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainWindow : Window
+    public sealed partial class LargeCategoriesViewPage : Page
     {
-        public MainWindow()
+        private LargeCategoriesViewModel? viewModel;
+
+        public LargeCategoriesViewPage()
         {
             InitializeComponent();
-            Activated += MainWindow_Activated;
         }
 
-        private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (BaseFrame.CurrentSourcePageType == null)
-                BaseFrame.Navigate(typeof(LargeCategoriesViewPage));
+            base.OnNavigatedTo(e);
+
+            viewModel = Ioc.Default.GetRequiredService<LargeCategoriesViewModel>();
+            await viewModel.LoadAsync();
         }
     }
 }

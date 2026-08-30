@@ -13,6 +13,9 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="LargeCategoriesViewPage.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -58,6 +61,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Caesar\Caesar.csproj" />
     <ProjectReference Include="..\Dita\Dita.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="LargeCategoriesViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Templates\DataTemplates.xaml">

@@ -123,8 +123,17 @@
   <data name="DetailBtn.Label" xml:space="preserve">
     <value>詳細</value>
   </data>
+  <data name="IdColumn.Header" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="LargeCategoriesViewDesc.Text" xml:space="preserve">
+    <value>大分類を一覧表示します．</value>
+  </data>
   <data name="LoadBtn.Label" xml:space="preserve">
     <value>読み込み</value>
+  </data>
+  <data name="NameColumn.Header" xml:space="preserve">
+    <value>名称</value>
   </data>
   <data name="RemoveBtn.Label" xml:space="preserve">
     <value>削除</value>
@@ -140,5 +149,11 @@
   </data>
   <data name="SearchBtn.Label" xml:space="preserve">
     <value>検索</value>
+  </data>
+  <data name="SearchBox.Header" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="SearchBox.PlaceholderText" xml:space="preserve">
+    <value>検索フレーズを入力</value>
   </data>
 </root>
