@@ -156,4 +156,13 @@
   <data name="SearchBox.PlaceholderText" xml:space="preserve">
     <value>Enter the search phrase.</value>
   </data>
+  <data name="LargeCategoryEditDesc.Text" xml:space="preserve">
+    <value>You can edit or view details of the large category.</value>
+  </data>
+  <data name="NameEdit.Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="LargeCategoriesViewPageName" xml:space="preserve">
+    <value>Large Categories</value>
+  </data>
 </root>

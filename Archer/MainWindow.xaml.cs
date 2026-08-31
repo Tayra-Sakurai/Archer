@@ -34,7 +34,7 @@ namespace Archer
         private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
         {
             if (BaseFrame.CurrentSourcePageType == null)
-                BaseFrame.Navigate(typeof(LargeCategoriesViewPage));
+                BaseFrame.Navigate(typeof(BasePage));
         }
     }
 }
