@@ -14,11 +14,13 @@
             IsSettingsVisible="False">
             <NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="local:PageInfo">
-                    <NavigationViewItem Content="{x:Bind Name}" Icon="{x:Bind Icon}"/>
+                    <NavigationViewItem Content="{x:Bind DisplayName}" Icon="{x:Bind Icon}"/>
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
             
-            <Frame x:Name="BaseFrame"/>
+            <Frame
+                Padding="36"
+                x:Name="BaseFrame"/>
         </NavigationView>
     </Grid>
 </Page>

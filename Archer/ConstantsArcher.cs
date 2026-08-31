@@ -22,5 +22,15 @@ namespace Archer
                     }
                 },
             ];
+
+        public static readonly ObservableCollection<PageInfo> AllPages =
+            [
+                ..Infos,
+                new()
+                {
+                    Name = "LargeCategoryViewPageName",
+                    PageType = typeof(LargeCategoryViewPage),
+                },
+            ];
     }
 }

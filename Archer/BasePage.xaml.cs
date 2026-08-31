@@ -38,14 +38,13 @@ public sealed partial class BasePage : Page
     private void BaseFrame_Navigated(object sender, NavigationEventArgs e)
     {
         MainNavigation.IsBackEnabled = BaseFrame.CanGoBack;
+        MainNavigation.Header = ConstantsArcher.AllPages.First(d => d.PageType == e.SourcePageType).DisplayName;
     }
 
     private void MainNavigation_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         if (args.InvokedItem is PageInfo pageInfo)
         {
-            ResourceLoader resourceLoader = new();
-            sender.Header = resourceLoader.GetString(pageInfo.Name);
             BaseFrame.Navigate(pageInfo.PageType);
         }
     }

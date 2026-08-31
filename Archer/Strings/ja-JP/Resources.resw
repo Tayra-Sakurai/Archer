@@ -165,4 +165,19 @@
   <data name="LargeCategoriesViewPageName" xml:space="preserve">
     <value>大分類</value>
   </data>
+  <data name="LargeCategoryViewPageName" xml:space="preserve">
+    <value>大分類の詳細</value>
+  </data>
+  <data name="MediumCategoriesViewDesc.Text" xml:space="preserve">
+    <value>中分類の一覧を表示します．</value>
+  </data>
+  <data name="LargeCategoryColumn.Header" xml:space="preserve">
+    <value>大分類</value>
+  </data>
+  <data name="MediumCategoryViewDesc.Text" xml:space="preserve">
+    <value>中分類の編集・詳細確認</value>
+  </data>
+  <data name="LargeCategoryEdit.Header" xml:space="preserve">
+    <value>大分類</value>
+  </data>
 </root>

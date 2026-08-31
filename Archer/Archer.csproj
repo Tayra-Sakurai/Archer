@@ -17,6 +17,8 @@
     <None Remove="BasePage.xaml" />
     <None Remove="LargeCategoriesViewPage.xaml" />
     <None Remove="LargeCategoryViewPage.xaml" />
+    <None Remove="MediumCategoriesViewPage.xaml" />
+    <None Remove="MediumCategoryViewPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -63,6 +65,16 @@
   <ItemGroup>
     <ProjectReference Include="..\Caesar\Caesar.csproj" />
     <ProjectReference Include="..\Dita\Dita.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MediumCategoryViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MediumCategoriesViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="BasePage.xaml">

@@ -67,7 +67,9 @@ namespace Caesar.ViewModels
             }
 
             foreach (
-                Item item1 in items)
+                Item item1 in
+                items
+                .OrderBy(i => i.TimeTrade))
                 Items.Add(item1);
 
             foreach (

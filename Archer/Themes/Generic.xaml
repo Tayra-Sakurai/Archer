@@ -44,6 +44,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local2:DataViewCommands">
                     <CommandBar
+                        Name="CommandBar"
                         DefaultLabelPosition="Right">
                         <AppBarButton
                             Icon="Sync"

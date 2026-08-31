@@ -5,20 +5,27 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
+using Windows.Foundation.Collections;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Archer.TemplatedElements
 {
+    [ContentProperty(Name = nameof(AdditionalCommands))]
+    [TemplatePart(Name = "CommandBar", Type = typeof(CommandBar))]
     public sealed partial class DataViewCommands : Control
     {
+        private CommandBar? commandBar;
+
         public DataViewCommands()
         {
             DefaultStyleKey = typeof(DataViewCommands);
@@ -28,6 +35,28 @@ namespace Archer.TemplatedElements
         {
             get => (ICommand)GetValue(AddCommandProperty);
             set => SetValue(AddCommandProperty, value);
+        }
+
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            commandBar = (CommandBar)GetTemplateChild("CommandBar");
+            AdditionalCommands.CollectionChanged += AdditionalCommands_CollectionChanged;
+        }
+
+        private void AdditionalCommands_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            ApplyTemplateCommands();
+        }
+
+        private void ApplyTemplateCommands()
+        {
+            if (commandBar == null)
+                return;
+
+            foreach (ICommandBarElement commandBarElement in AdditionalCommands)
+                commandBar.PrimaryCommands.Add(commandBarElement);
         }
 
         private readonly static DependencyProperty AddCommandProperty = DependencyProperty.Register(
@@ -119,5 +148,22 @@ namespace Archer.TemplatedElements
             typeof(object),
             typeof(DataViewCommands),
             new(default));
+
+        public ObservableCollection<ICommandBarElement> AdditionalCommands
+        {
+            get => (ObservableCollection<ICommandBarElement>)GetValue(AdditionalCommandsProperty);
+            set => SetValue(AdditionalCommandsProperty, value);
+        }
+
+        private static readonly DependencyProperty AdditionalCommandsProperty = DependencyProperty.Register(
+            nameof(AdditionalCommands),
+            typeof(ObservableCollection<ICommandBarElement>),
+            typeof(DataViewCommands),
+            new(new ObservableCollection<ICommandBarElement>(), OnAdditionalCommandsPropertyChanged));
+
+        private static void OnAdditionalCommandsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DataViewCommands)d).ApplyTemplateCommands();
+        }
     }
 }

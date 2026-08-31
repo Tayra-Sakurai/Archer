@@ -165,4 +165,19 @@
   <data name="LargeCategoriesViewPageName" xml:space="preserve">
     <value>Large Categories</value>
   </data>
+  <data name="LargeCategoryViewPageName" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="MediumCategoriesViewDesc.Text" xml:space="preserve">
+    <value>List of the medium categories.</value>
+  </data>
+  <data name="LargeCategoryColumn.Header" xml:space="preserve">
+    <value>Large Category</value>
+  </data>
+  <data name="MediumCategoryViewDesc.Text" xml:space="preserve">
+    <value>Detailed edit view of a medium category.</value>
+  </data>
+  <data name="LargeCategoryEdit.Header" xml:space="preserve">
+    <value>Large Category</value>
+  </data>
 </root>
